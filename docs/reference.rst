@@ -65,6 +65,11 @@ Settings
 
     Dotted path to a built-in or custom packer. See :ref:`Custom primary keys`.
 
+.. data:: SESAME_PRIMARY_KEY_FIELD
+    :value: "pk"
+
+    Name of the attribute used as a primary key. See :ref:`Custom primary keys`.
+
 .. data:: SESAME_TOKENS
     :value: ["sesame.tokens_v2", "sesame.tokens_v1"]
 
@@ -142,6 +147,8 @@ django-sesame requires configuring a compatible authentication backend in
 :setting:`AUTHENTICATION_BACKENDS`.
 
 .. autoclass:: sesame.backends.ModelBackend
+
+    .. automethod:: get_user
 
 .. autoclass:: sesame.backends.SesameBackendMixin
 

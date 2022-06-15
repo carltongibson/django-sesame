@@ -1,5 +1,6 @@
 import uuid
 
+from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase, override_settings
 
 from sesame import packers
@@ -122,6 +123,15 @@ class TestPackers(TestCase):
     @override_settings(AUTH_USER_MODEL="tests.UUIDUser")
     def test_get_packer_with_uuid_primary_key(self):
         self.assertEqual(type(packers.packer), UUIDPacker)
+
+    def test_get_packer_with_non_unique_primary_key(self):
+        with self.assertRaises(ImproperlyConfigured) as exc:
+            with override_settings(SESAME_PRIMARY_KEY_FIELD="email"):
+                pass  # pragma: no cover
+        self.assertEqual(
+            str(exc.exception),
+            "auth.User.email isn't unique",
+        )
 
     def test_get_packer_with_unsupported_primary_key(self):
         with self.assertRaises(NotImplementedError) as exc:
